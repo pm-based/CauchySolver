@@ -9,6 +9,11 @@ int main(){
 	int N = 100;
 	double T = 1;
 	auto p = CNSolver(fun, y0, T, N);
+	auto max_u = std::max_element(std::get<1>(p).begin(),std::get<1>(p).end());
+	auto max_t = std::max_element(std::get<0>(p).begin(),std::get<0>(p).end());
 
-
+	std::cout<<*max_u<<std::endl;
+	std::cout<<*max_t<<std::endl;
+	
+	return(0);
 }
