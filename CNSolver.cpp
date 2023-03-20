@@ -10,7 +10,9 @@ std::tuple<std::vector<double>, std::vector<double>> CNSolver(const std::functio
 	for(auto i=0; i <= N; i++){
 		double t_i = h*i;
 		t.push_back(t_i);
-		u.push_back(apsc::bisection([&f,h,t_i](double x) {return (x-(h/2.)*(f(t_i+h,x)+f(t_i,x)));}, 0, T));
+		double u_i;
+		std::tie(u_i, std::ignore) = apsc::secant([&f,h,t_i](double x) {return (x-(h/2.)*(f(t_i+h,x)+f(t_i,x)));}, 0, T);
+		u.push_back(u_i);
 
 	}
 	return{std::make_tuple(t,u)};
