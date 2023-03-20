@@ -11,9 +11,8 @@ std::tuple<std::vector<double>, std::vector<double>> CNSolver(const std::functio
 		double t_i = h*i;
 		t.push_back(t_i);
 		u.push_back(apsc::bisection([&f,h,t_i](double x) {return (x-(h/2.)*(f(t_i+h,x)+f(t_i,x)));}, 0, T));
-	
+
 	}
-
-
+	return{std::make_tuple(t,u)};
 }
 
