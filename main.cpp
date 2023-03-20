@@ -1,5 +1,6 @@
 #include <iostream>
 #include "CNSolver.hpp"
+#include "gnuplot-iostream.hpp" // interface with gnuplot
 //#include <functional>
 //#include <numbers>
 
@@ -15,5 +16,9 @@ int main(){
 	std::cout<<*max_u<<std::endl;
 	std::cout<<*max_t<<std::endl;
 	
+	 Gnuplot gp; // gnuplot iostream
+	 gp << "plot" << gp.file1d(p) << "w lp lw 2 title 'uh',"
+     << std::endl;
+
 	return(0);
 }
