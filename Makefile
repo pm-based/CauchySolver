@@ -8,3 +8,5 @@ main:
 compile:
 	g++ -std=c++20 -L$(mkBoostLib) -lboost_iostreams -lboost_system -lboost_filesystem -I/home/p2/PACS/pacs-examples/Examples/src/Utilities CNSolver.o main.o -o main
 
+testCN:
+	g++ -std=c++20 -I/home/p2/PACS/pacs-examples/Examples/src/Utilities testCN.cpp -o testCN
