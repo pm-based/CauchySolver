@@ -1,7 +1,10 @@
 #include "CNSolver.hpp"
 
+using ODE = std::function<double(double,double)>;
+using NumSolution = std::tuple<std::vector<double>, std::vector<double>>;
+using Fun = std::function<double(double)>;
 
-std::tuple<std::vector<double>, std::vector<double>> CNSolver(const std::function<double(double,double)>& odefun, const double & y0, const double & T, const int & N){
+NumSolution CNSolver(const ODE & odefun, const double & y0, const double & T, const int & N){
 	const double h = T/N;
 	std::vector<double> u(N+1);
 	std::vector<double> t(N+1);
@@ -11,7 +14,7 @@ std::tuple<std::vector<double>, std::vector<double>> CNSolver(const std::functio
 	for(int i = 1; i <= N; i++){	
 		t[i] = i*h;
 		
-		const std::function<double(double)> F = [&odefun,h,&t,&u,i](double x) {
+		const Fun F = [&odefun,h,&t,&u,i](double x) {
 			return(x -(h/2.)*( odefun(t[i],x) + odefun(t[i-1],u[i-1]) ) 					-u[i-1]);
 		};
 		u[i] = std::get<0>(apsc::secant(F, -5, 5));
