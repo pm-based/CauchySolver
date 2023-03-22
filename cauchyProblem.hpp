@@ -1,6 +1,7 @@
 #include <tuple>
 #include <vector>
 #include <functional>
+#include "CNSolver.hpp"
 
 class CauchyProblem {
 	using ODE = std::function<double(double,double)>;
@@ -16,7 +17,9 @@ class CauchyProblem {
 			{};
 		CauchyProblem(ODE f): odefun(f) {};
 			
-		NumSolution CNSolution();
+		NumSolution CNSolution(){
+			return CNSolver(odefun, InitialValue, EndTime, Nsteps);
+			};
 		
 	private:
 		// definition of the cauchy problem
