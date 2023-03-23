@@ -28,7 +28,14 @@ class CauchyProblem {
 		//method to set a costumize number of steps
 		void SetNumberOfSteps(const int & N){Nsteps = N;};
 		
+		//method to plot the solution
 		void plot();
+		
+		//method to print the solution
+		void print();
+		
+		//method to save the solution in a file
+		void save();
 		
 	private:
 		// definition of the cauchy problem. They are private since characterize
