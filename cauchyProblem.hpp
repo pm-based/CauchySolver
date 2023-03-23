@@ -9,7 +9,7 @@ using NumSolution = std::tuple<std::vector<double>, std::vector<double>>;
 //Class that define a Cauchy problem, and implement the methods to get the solution
 class CauchyProblem {	
 	public:
-		//a complete constructor: full definition of a cauchy problem
+		//complete constructor: full definition of a cauchy problem
 		CauchyProblem(ODE f, double y0, double t0, double t1):
 			odefun(f),
 			InitialValue(y0),
@@ -27,6 +27,8 @@ class CauchyProblem {
 		
 		//method to set a costumize number of steps
 		void SetNumberOfSteps(const int & N){Nsteps = N;};
+		
+		void plot();
 		
 	private:
 		// definition of the cauchy problem. They are private since characterize
