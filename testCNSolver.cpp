@@ -6,7 +6,11 @@
 int main(){
 	const std::function<double(double,double)> odefun = [](double t, double y){
 		return(-t*exp(-y));
-	};
+		};
+	
+	//const std::function<double(double,double)> odefun = [](double t, double y){
+		return(4*y);};	
+	
 	const double y0 = 2;
 	const double T = 5;
 	const int N = 1000;
