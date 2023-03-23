@@ -22,8 +22,7 @@ NumSolution CNSolver(const ODE & odefun, const double & y0, const double & t0, c
 		const Fun F = [&odefun,h,&t,&u,i](double x) {
 			return(x -(h/2.)*( odefun(t[i],x) + odefun(t[i-1],u[i-1]) ) 					-u[i-1]);
 			};
-		u[i] = std::get<0>(apsc::secant(F, u[i-1]-2*odefun(t[i],u[i-1]), u[i-1]+2*odefun(t[i],u[i-1])));
-	//	u[i] = std::get<0>(apsc::secant(F, -5, 5));
+		u[i] = std::get<0>(apsc::secant(F, u[i-1]-2*odefun(t[i]-0.01,u[i-1]), 							u[i-1]+2*odefun(t[i]+0.01,u[i-1])));
 	}
 	
 	return{std::make_tuple(t,u)};
