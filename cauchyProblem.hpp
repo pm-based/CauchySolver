@@ -8,6 +8,7 @@ class CauchyProblem {
 	using NumSolution = std::tuple<std::vector<double>, std::vector<double>>;
 	
 	public:
+		//a complete constructor: full definition of a cauchy problem and of the steps to compute it
 		CauchyProblem(ODE f, double y0, double t0, double t1, int N):
 			odefun(f),
 			InitialValue(y0),
@@ -15,11 +16,14 @@ class CauchyProblem {
 			EndTime(t1),
 			Nsteps(N)
 			{};
+		
+		//constructor only with the specified ode function
 		CauchyProblem(ODE f): odefun(f) {};
-			
+		
+		//method returning the Crank-Nicolson solution of the problem.
+		//it return a NumSolution type aka tuple of two vector, the first with 			the time steps and the second with the corrisponding value of the solution
 		NumSolution CNSolution(){
-			return CNSolver(odefun, InitialValue, InitialTime, EndTime, Nsteps);
-			};
+			return CNSolver(odefun, InitialValue, InitialTime, EndTime, 					Nsteps);};
 		
 	private:
 		// definition of the cauchy problem
