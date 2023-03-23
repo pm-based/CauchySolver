@@ -18,7 +18,7 @@ class CauchyProblem {
 		CauchyProblem(ODE f): odefun(f) {};
 			
 		NumSolution CNSolution(){
-			return CNSolver(odefun, InitialValue, EndTime, Nsteps);
+			return CNSolver(odefun, InitialValue, InitialTime, EndTime, Nsteps);
 			};
 		
 	private:
