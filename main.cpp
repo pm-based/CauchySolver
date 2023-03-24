@@ -1,7 +1,5 @@
-#include <iostream>
-#include <cmath>
+#include <cmath> //to use exp and trigonometry funcions
 #include "cauchyProblem.hpp"	// Class to handle Cauchy problems
-//#include "gnuplot-iostream.hpp"
 
 using ODE = std::function<double(double,double)>;
 
@@ -22,6 +20,7 @@ int main(){
 	
 //Set resolution parameters
 	testCP1.SetNumberOfSteps(200);
+	testCP1.SetTheta(0.2); //set theta = 0.2
 	testCP2.SetNumberOfSteps(10000);
 
 //Plots

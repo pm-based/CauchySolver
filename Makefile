@@ -1,15 +1,27 @@
+PATH_PACSEXAMPLES = /home/p2/PACS
 
-CNSolver:
-	g++ -c -std=c++20 -I/home/p2/PACS/pacs-examples/Examples/src/Utilities CNSolver.cpp -o CNSolver.o
+CXXFLAGS = -std=c++20
+CPPFLAGS = -I$(PATH_PACSEXAMPLES)/pacs-examples/Examples/src/Utilities -I$(PATH_PACSEXAMPLES)/pacs-examples/Examples/src/LinearAlgebraUtil -I$(mkBoostInc)
+LIBS = -lboost_iostreams -lboost_system -lboost_filesystem
+LDFLAGS = -L$(mkBoostLib)
+
+
+all: main
+
+main: Solver.o cauchyProblem.o main.o
+	$(CXX) $(LDFLAGS) $(LIBS) Solver.o cauchyProblem.o main.o -o main
+
+cauchyProblem.o:
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c cauchyProblem.cpp -o cauchyProblem.o
 	
-main: 
-	g++ -c -std=c++20 -I/home/p2/PACS/pacs-examples/Examples/src/Utilities -I$(mkBoostInc) main.cpp -o main.o
-	
-compile:
-	g++ -std=c++20 -L$(mkBoostLib) -lboost_iostreams -lboost_system -lboost_filesystem -I/home/p2/PACS/pacs-examples/Examples/src/Utilities CNSolver.o cauchyProblem.o main.o -o main
+Solver.o:
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c Solver.cpp -o Solver.o
 
-testCN:
-	g++ -std=c++20 -I/home/p2/PACS/pacs-examples/Examples/src/Utilities testCNSolver.cpp -o testCN
+main.o:
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c main.cpp -o main.o
 
-cauchy:
-	g++ -c -std=c++20 -I/home/p2/PACS/pacs-examples/Examples/src/Utilities -I$(mkBoostInc) cauchyProblem.cpp -o cauchyProblem.o
+clean:
+	$(RM) *.o 
+
+distclean: clean
+	$(RM) main Solution.txt
