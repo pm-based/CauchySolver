@@ -1,15 +1,50 @@
-Per la compilazione è necessario inserire il path di "pacs-examples" nella variabile PATH_PACSEXAMPLE nel Makefile. In quanto si fa uso del file "basicZeroFun.hpp" e delle librerie da esso utilizzate.
-Inoltre è necessaria la libreria "boost" per l'uso di gnuplot.
+# Cauchy Problem Solver
 
-La classe CauchyProblem definisce un problema di cauchy e fornisce vari metodi per il calcolo delle soluzioni numeriche e per visualizzare e salvare la soluzione.
-L'idea della classe è appunto quella di definire un problema di cauchy, per questo motivo non è possibile modificare i parametri che definiscono il problema matematico. E' invece possibile modificare i parametri per il calcolo della soluzione numerica (il numero di passi e theta).
-Implementa 4 schemi risolutivi: Eulero in avanti con EFSolution(), Eulero all'indierto con EBSolution(), Crank-Nicolson con CNSolution() e lo schema risolutivo con un generico theta con ThetaSolution(theata). Questi metodi restituiscono la relativa soluzione in un dato del tipo NumSolution aka std::tuple<std::vector<double>, std::vector<double>>, dove il primo vettore contiene gli istanti di tempo dove viene valutata la soluzione e il secondo contiente i corrispondenti valori della soluzione.
-Ogni soluzione dei 4 metodi che è calolata viene salvata in un array di soluzioni: "Solutions", in modo da evitare il ricalcolo della soluzione con lo stesso metodo. In particolare per ThetaSolution viene salvata la soluzione per l'ultima theta inserita (non ricolcolata se la theta è invariata).
-Il calcolo effettivo della soluzione di tutti 4 i metodi è effettuato da Solver.
-E' possibile stampare a schermo con print(), visualizzare un grafico gnuplot con plot() e salvare in un file la soluzione con save(). Questi tre metodi utilizzano come soluzione l'ultima soluzione calcolata, ma è possibile, attraverso il metodo SetTheta(theta), selezionare una soluzione diversa dall'ultima calcolata (o se non è ancora stata calcolata una soluzione, una diversa da quella di default: CN). In generale se la soluzione desiderata non è gia stata calcolata lo viene fatto chiamando il relativo metodo.
-Inoltre la classe ha due costruttori:
-- CauchyProblem(ODE f, double y0, double t0, double t1) definisce completamente il problema di cauchy
-- CauchyProblem(ODE f) richiede solamente l'equazione differenziale da risolvere ed utilizza come parametri di default y0=0, t0 = 0, T = 1.
+This project defines a Cauchy problem and provides various methods to calculate, visualize, and save numerical solutions. The `CauchyProblem` class is designed specifically for defining a Cauchy problem, with parameters that describe the mathematical problem remaining unmodifiable. However, parameters related to the numerical solution, such as the number of steps and the `theta` parameter, can be adjusted.
 
-Solver restituisce una soluzione calcolata con uno schema risoluto a differenze finite con una generica theta.
-In particolare per il calcolo dello zero al suo interno è stato utilizzato il metodo della secante implementato di "basicZeroFun.hpp", come punti per il calcolo della derivata sono utilizzati gli estremi dell'intervallo centrato nel precendete risutato u[i-1] e di ampiezza pari a 2*(2*odefun(t[i],u[i-1])+0.01).
+## Features
+
+The `CauchyProblem` class implements four numerical schemes to solve the problem:
+- **Forward Euler**: `EFSolution()`
+- **Backward Euler**: `EBSolution()`
+- **Crank-Nicolson**: `CNSolution()`
+- **General Theta Scheme**: `ThetaSolution(theta)`
+
+Each method returns the solution as a `NumSolution`, which is defined as a `std::tuple<std::vector<double>, std::vector<double>>`. 
+- The first vector contains the time points at which the solution is evaluated.
+- The second vector contains the corresponding values of the solution at those time points.
+
+### Solution Storage
+
+Each solution calculated using one of the four methods is saved in an internal array (`Solutions`) to avoid redundant recalculations with the same method. In particular, for `ThetaSolution`, the solution is stored for the most recent value of `theta`. If `theta` remains unchanged, the solution is not recalculated.
+
+### Visualization and Output
+
+The `CauchyProblem` class provides three methods to manage the calculated solution:
+- **Print**: `print()` outputs the solution to the console.
+- **Plot**: `plot()` visualizes the solution using Gnuplot.
+- **Save**: `save()` saves the solution to a file.
+
+By default, these methods use the most recently calculated solution. You can select a different solution using `SetTheta(theta)`. If the requested solution has not yet been computed, it will be calculated automatically when needed.
+
+### Constructors
+
+The class provides two constructors:
+1. `CauchyProblem(ODE f, double y0, double t0, double t1)` – Fully defines the Cauchy problem.
+2. `CauchyProblem(ODE f)` – Requires only the ODE to be solved, and defaults to `y0 = 0`, `t0 = 0`, `T = 1`.
+
+## Solver Class
+
+The `Solver` class calculates the solution using the finite difference method with a general `theta` parameter. For root-finding within the solver, the secant method implemented in `basicZeroFun.hpp` is used. To compute the derivative, the endpoints of the interval centered at the previous result `u[i-1]` are used, with a width equal to `2*(2*odefun(t[i],u[i-1])+0.01)`.
+
+## Requirements
+
+- You must integrate the project with the repository [pacs-examples](https://github.com/pacs-course/pacs-examples.git): Set the path to `pacs-examples` in the `PATH_PACSEXAMPLE` variable in the Makefile. This is necessary because the project uses the `basicZeroFun.hpp` file and its associated libraries.
+- The `Boost` library is required for using Gnuplot to visualize the results.
+
+## Compilation
+
+To compile the project, follow these steps:
+1. Clone the `pacs-examples` repository:
+   ```bash
+   git clone https://github.com/pacs-course/pacs-examples.git
